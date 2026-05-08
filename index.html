@@ -31,6 +31,26 @@ body{background:var(--cream);font-family:'Montserrat',sans-serif;font-weight:300
 .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,42px);font-weight:700;color:var(--mauve-dark);line-height:1.15;margin-bottom:10px}
 .hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(14px,3vw,17px);color:var(--text-light);max-width:460px;margin:0 auto;line-height:1.5}
 .container{max-width:620px;margin:0 auto;padding:36px 20px 60px}
+.intro-screen{animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.intro-card{background:#fff;border:1px solid var(--mauve-light);border-radius:14px;padding:32px 24px;margin-bottom:28px}
+.intro-tension{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,28px);font-weight:700;color:var(--mauve-dark);line-height:1.2;margin-bottom:16px}
+.intro-tension-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text-light);margin-bottom:20px;line-height:1.6}
+.intro-benefits{margin-bottom:20px}
+.intro-benefit-label{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mauve-mid);margin-bottom:12px}
+.intro-benefits-list{display:flex;flex-direction:column;gap:12px}
+.intro-benefit-item{display:flex;gap:12px;align-items:flex-start}
+.intro-benefit-icon{width:20px;height:20px;background:var(--mauve-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:var(--mauve-dark);font-weight:600}
+.intro-benefit-text{font-size:13px;color:var(--text-mid);line-height:1.5}
+.intro-divider{height:1px;background:var(--mauve-light);margin:20px 0}
+.intro-expectations{background:var(--mauve-pale);border-radius:10px;padding:16px;border:1px solid var(--mauve-light);margin-bottom:20px}
+.intro-exp-label{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--mauve-mid);margin-bottom:8px}
+.intro-exp-items{display:flex;gap:16px;justify-content:space-around;text-align:center;flex-wrap:wrap}
+.intro-exp-item{flex:1;min-width:80px}
+.intro-exp-number{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--mauve-dark);display:block}
+.intro-exp-label-item{font-size:10px;color:var(--text-light);letter-spacing:0.08em;text-transform:uppercase;margin-top:4px}
+.intro-cta{display:inline-block;background:var(--mauve-dark);color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:14px 40px;border-radius:40px;cursor:pointer;border:none;transition:all 0.2s;width:100%}
+.intro-cta:hover{background:#4a3040;transform:translateY(-2px)}
 .progress-wrap{margin-bottom:28px}
 .progress-label{display:flex;justify-content:space-between;margin-bottom:8px}
 .progress-label span{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-light)}
@@ -119,7 +139,54 @@ body{background:var(--cream);font-family:'Montserrat',sans-serif;font-weight:300
 </div>
 
 <div class="container">
-  <div id="quiz-wrap">
+  <div id="intro-wrap" class="intro-screen">
+    <div class="intro-card">
+      <h2 class="intro-tension">Fueling gaps sabotage your progress.</h2>
+      <p class="intro-tension-sub">You can train hard, but if your nutrition isn't supporting your capacity, your body can't keep up.</p>
+      
+      <div class="intro-divider"></div>
+      
+      <div class="intro-benefits">
+        <p class="intro-benefit-label">After this assessment, you'll understand:</p>
+        <div class="intro-benefits-list">
+          <div class="intro-benefit-item">
+            <div class="intro-benefit-icon">✓</div>
+            <div class="intro-benefit-text">Whether your current fueling supports your training and capacity</div>
+          </div>
+          <div class="intro-benefit-item">
+            <div class="intro-benefit-icon">✓</div>
+            <div class="intro-benefit-text">Where your fueling pattern is creating gaps or barriers to progress</div>
+          </div>
+          <div class="intro-benefit-item">
+            <div class="intro-benefit-icon">✓</div>
+            <div class="intro-benefit-text">Concrete first steps to rebuild consistency and support your body</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-expectations">
+        <p class="intro-exp-label">What to expect:</p>
+        <div class="intro-exp-items">
+          <div class="intro-exp-item">
+            <span class="intro-exp-number">12</span>
+            <span class="intro-exp-label-item">Questions</span>
+          </div>
+          <div class="intro-exp-item">
+            <span class="intro-exp-number">2-3</span>
+            <span class="intro-exp-label-item">Minutes</span>
+          </div>
+          <div class="intro-exp-item">
+            <span class="intro-exp-number">1</span>
+            <span class="intro-exp-label-item">Result</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="intro-cta" onclick="startQuiz()">Start Your Fuel Check →</button>
+    </div>
+  </div>
+
+  <div id="quiz-wrap" class="hidden">
     <div class="progress-wrap">
       <div class="progress-label">
         <span>Your fuel check</span>
@@ -224,6 +291,12 @@ const results={
 };
 
 const answers={};let current=0;
+
+function startQuiz(){
+  document.getElementById('intro-wrap').classList.add('hidden');
+  document.getElementById('quiz-wrap').classList.remove('hidden');
+  renderQuestion();
+}
 
 function renderQuestion(){
   const q=questions[current];
@@ -360,14 +433,12 @@ function showResult(){
 function restartQuiz(){
   Object.keys(answers).forEach(k=>delete answers[k]);
   current=0;
-  document.getElementById('quiz-wrap').classList.remove('hidden');
+  document.getElementById('intro-wrap').classList.remove('hidden');
+  document.getElementById('quiz-wrap').classList.add('hidden');
   const rw=document.getElementById('result-wrap-outer');
   rw.classList.add('hidden');
   rw.innerHTML='';
-  renderQuestion();
 }
-
-renderQuestion();
 </script>
 </body>
 </html>
